@@ -1,4 +1,4 @@
-const CACHE_NAME = "thermal-dokumen-v1";
+const CACHE_NAME = "thermal-dokumen-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
