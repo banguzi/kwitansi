@@ -22,7 +22,7 @@
     </div>
     <div class="header-actions">
       <button type="button" class="btn btn-ghost" id="btn-help">Petunjuk cetak</button>
-      <button type="button" class="btn btn-ghost" id="btn-settings">Kop &amp; lebar kertas</button>
+      <button type="button" class="btn btn-ghost" id="btn-settings">Kop & lebar kertas</button>
     </div>
   </header>
 
@@ -38,6 +38,7 @@
         </form>
         <div class="toolbar">
           <button type="button" class="btn btn-accent" id="btn-print">Cetak</button>
+          <button type="button" class="btn btn-wa" id="btn-share">Bagikan ke WA</button>
           <button type="button" class="btn btn-primary" id="btn-draft">Simpan Draft</button>
           <button type="button" class="btn btn-ghost" id="btn-clear">Bersihkan</button>
         </div>
@@ -66,7 +67,7 @@
 
       <section class="panel no-print hidden" id="settings-panel" style="margin-top:16px;">
         <div class="panel-head">
-          <h2>Kop usaha &amp; preferensi</h2>
+          <h2>Kop usaha & preferensi</h2>
         </div>
         <div class="panel-body">
           <label for="pref-nama">Nama usaha</label>
@@ -91,6 +92,8 @@
             <input id="pref-width" type="range" min="48" max="52" step="1">
             <span>52 mm</span>
           </div>
+          <label for="pref-wa">Nomor WhatsApp tujuan (opsional)</label>
+          <input id="pref-wa" type="tel" inputmode="tel" placeholder="08xxxxxxxxxx atau 62xxxxxxxxxxx">
           <label><input id="pref-header" type="checkbox"> Tampilkan kop usaha</label>
           <label><input id="pref-terbilang" type="checkbox"> Tampilkan terbilang</label>
           <p class="settings-note">
@@ -128,6 +131,29 @@
     Aplikasi statis offline-first. Tidak memakai server, database, framework, atau CDN.
   </footer>
   <div class="toast no-print" id="toast" role="status" aria-live="polite"></div>
+  <div class="share-overlay no-print hidden" id="share-overlay">
+    <div class="share-sheet" role="dialog" aria-labelledby="share-title">
+      <div class="panel-head">
+        <h2 id="share-title">Bagikan dokumen</h2>
+        <button type="button" class="btn btn-ghost btn-small" id="btn-share-close">Tutup</button>
+      </div>
+      <div class="panel-body">
+        <p class="settings-note" id="share-caption-preview"></p>
+        <label for="share-wa">Nomor WA (kosongkan untuk memilih kontak di aplikasi)</label>
+        <input id="share-wa" type="tel" inputmode="tel" placeholder="08xxxxxxxxxx">
+        <div class="share-actions">
+          <button type="button" class="btn btn-wa" id="btn-share-jpeg">Bagikan JPEG ke WhatsApp</button>
+          <button type="button" class="btn btn-wa" id="btn-share-pdf">Bagikan PDF ke WhatsApp</button>
+          <button type="button" class="btn btn-ghost" id="btn-dl-jpeg">Unduh JPEG</button>
+          <button type="button" class="btn btn-ghost" id="btn-dl-pdf">Unduh PDF</button>
+        </div>
+        <p class="settings-note">
+          Di Android/Chrome, pilih <strong>WhatsApp</strong> pada lembar berbagi sistem agar berkas menempel di chat.
+          WhatsApp Web tidak menerima lampiran lewat tautan; jika berbagi berkas tidak tersedia, file diunduh lalu dilampirkan manual.
+        </p>
+      </div>
+    </div>
+  </div>
   <script src="./app.js"></script>
 </body>
 </html>
