@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1c3d36">
+  <meta name="description" content="Aplikasi PWA offline-first untuk membuat dan mencetak kwitansi, nota, bon, bukti pembayaran, dan bukti serah terima uang pada printer thermal 58 mm.">
+  <title>Dokumen Thermal 58 mm</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="app-header no-print">
+    <div class="brand">
+      <div class="brand-mark">58</div>
+      <div>
+        <h1>Dokumen Thermal 58 mm</h1>
+        <p>Kwitansi · Nota · Bon · Bukti Pembayaran · Serah Terima</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="btn btn-ghost" id="btn-help">Petunjuk cetak</button>
+      <button type="button" class="btn btn-ghost" id="btn-settings">Kop &amp; lebar kertas</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel form-panel no-print">
+      <div class="panel-head">
+        <h2>Form dokumen</h2>
+      </div>
+      <div class="panel-body">
+        <div class="tabs" id="doc-tabs" role="tablist" aria-label="Jenis dokumen"></div>
+        <form id="doc-form" autocomplete="off" onsubmit="return false;">
+          <div id="form-fields"></div>
+        </form>
+        <div class="toolbar">
+          <button type="button" class="btn btn-accent" id="btn-print">Cetak</button>
+          <button type="button" class="btn btn-primary" id="btn-draft">Simpan Draft</button>
+          <button type="button" class="btn btn-ghost" id="btn-clear">Bersihkan</button>
+        </div>
+        <div class="hint-box">
+          Form tidak dikosongkan setelah cetak. Transaksi hanya tersimpan jika Anda menekan Simpan Draft.
+          Prefensi kop toko dan lebar konten disimpan di localStorage.
+        </div>
+        <h2 style="font-size:14px;margin:16px 0 8px;">Draft tersimpan</h2>
+        <p style="margin:0;font-size:12px;color:#5c584f;">Gunakan tombol Muat pada daftar di bawah. Tidak ada server; draft hanya ada di browser ini.</p>
+        <div class="draft-list" id="draft-list"></div>
+      </div>
+    </section>
+
+    <aside class="preview-wrap">
+      <section class="panel">
+        <div class="panel-head no-print">
+          <h2>Pratinjau 58 mm</h2>
+          <span id="width-value">50 mm</span>
+        </div>
+        <div class="thermal-stage">
+          <div class="thermal-paper">
+            <div class="thermal-inner" id="print-root"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel no-print hidden" id="settings-panel" style="margin-top:16px;">
+        <div class="panel-head">
+          <h2>Kop usaha &amp; preferensi</h2>
+        </div>
+        <div class="panel-body">
+          <label for="pref-nama">Nama usaha</label>
+          <input id="pref-nama" type="text">
+          <label for="pref-alamat">Alamat</label>
+          <textarea id="pref-alamat"></textarea>
+          <div class="grid-2">
+            <div>
+              <label for="pref-telepon">Telepon</label>
+              <input id="pref-telepon" type="tel">
+            </div>
+            <div>
+              <label for="pref-npwp">NPWP (opsional)</label>
+              <input id="pref-npwp" type="text">
+            </div>
+          </div>
+          <label for="pref-footer">Catatan kaki struk</label>
+          <textarea id="pref-footer"></textarea>
+          <label for="pref-width">Lebar konten efektif</label>
+          <div class="range-row">
+            <span>48 mm</span>
+            <input id="pref-width" type="range" min="48" max="52" step="1">
+            <span>52 mm</span>
+          </div>
+          <label><input id="pref-header" type="checkbox"> Tampilkan kop usaha</label>
+          <label><input id="pref-terbilang" type="checkbox"> Tampilkan terbilang</label>
+          <p class="settings-note">
+            Lebar halaman cetak tetap 58 mm. Lebar konten 48–52 mm memberi ruang tepi agar teks tidak terpotong rol kertas.
+          </p>
+        </div>
+      </section>
+
+      <section class="panel no-print hidden" id="help-panel" style="margin-top:16px;">
+        <div class="panel-head">
+          <h2>Cara mencetak</h2>
+        </div>
+        <div class="panel-body">
+          <p class="settings-note">
+            Aplikasi ini mencetak lewat <strong>window.print()</strong> dan stylesheet <code>@media print</code>.
+            Printer thermal harus sudah terpasang sebagai printer sistem pada Android, Windows, atau macOS.
+          </p>
+          <ol style="font-size:13px;line-height:1.5;padding-left:18px;">
+            <li>Pasang printer thermal 58 mm ke perangkat (USB, driver vendor, atau layanan cetak sistem).</li>
+            <li>Di dialog cetak browser, pilih printer thermal tersebut.</li>
+            <li>Ukuran kertas: 58 mm / 58mm x receipt / roll paper. Skala 100%. Margin None.</li>
+            <li>Matikan header/footer browser (judul halaman dan URL).</li>
+            <li>Jangan mengandalkan Web Bluetooth Classic SPP. Browser tidak menyediakan jalur itu.</li>
+          </ol>
+          <p class="settings-note">
+            ESC/POS tanpa dialog cetak memerlukan aplikasi pendamping atau local print bridge.
+            Fitur itu berada di luar MVP web murni ini dan tidak disertakan.
+          </p>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="app-footer no-print">
+    Aplikasi statis offline-first. Tidak memakai server, database, framework, atau CDN.
+  </footer>
+  <div class="toast no-print" id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
